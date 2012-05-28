@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h1>Your public IP address is {{ ip_addr }} <a href="http://en.wikipedia.org/wiki/IP_address" class="explain-link">What is this?</a></h1>
+<p class="explanation hidden">
+An "Internet Protocol" (IP) address is like a postal or zip code on the internet.  It can be used to identify you or other people
+using the same internet connection as you.  Learn more at <a href="http://en.wikipedia.org/wiki/IP_address">the Wikipedia page</a>
+on this subject.
+</p>
+<h2>Where does Google think you are located?&nbsp;<a href="http://en.wikipedia.org/wiki/IP_geolocation" class="explain-link">What is this?</a></h2>
+<p class="explanation hidden">
+Various companies, including Google, have built up databases that map IP addresses to physical real-world locations.
+These are not always accurate - if a latitude and longitude value is in the database, you can see for yourself how
+accurate the details are for your current IP address.  Learn more at <a href="http://en.wikipedia.org/wiki/IP_geolocation">
+the Wikipedia page</a> on this subject.
+</p>
+<dl>
+	<dt>Country</dt>
+	<dd>{% if country %}{{ country }}{% else %}Unknown{% endif %}</dd>
+	<dt>Region</dt>
+	<dd>{% if region %}{{ region }}{% else %}Unknown{% endif %}</dd>
+	<dt>City</dt>
+	<dd>{% if city %}{{ city }}{% else %}Unknown{% endif %}</dd>
+	<dt>Lat-Long</dt>
+	<dd>{% if latlong %}{{ latlong }}&nbsp;
+		<a href="https://maps.google.com/maps?q={{ latlong }}">Look this up on Google Maps</a>
+		{% else %}Unknown{% endif %}
+	</dd>
+</dl>
+
+<h2>Request headers&nbsp;<a href="http://en.wikipedia.org/wiki/HTTP_header" class="explain-link">What is this?</a></h2>
+<p class="explanation hidden">
+Every time your web browser fetches some information - e.g. a web page or a picture - from the internet,
+it also provides information about you, your browser or your computer.  This can include things like what
+your preferred language is and what type of browser you have.  Learn more at <a
+href="http://en.wikipedia.org/wiki/HTTP_header">the Wikipedia page</a> on this subject.
+</p>
+<dl>
+	{% for hdr in headers.items %}
+	<dt>{{ hdr.0 }}</dt>
+	<dd>{{ hdr.1 }}</dd>
+	{% endfor %}
+</dl>
+
+<div class="clearfix"></div>
+
+<p>
+Some waffle to go in here
+</p>
+
+<script src="static/js/main.js"></script>
+{% endblock %}

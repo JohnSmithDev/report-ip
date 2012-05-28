@@ -1,0 +1,33 @@
+##PREFERRED_DEV_PORT=12349
+application: report-ip
+version: 0-1
+runtime: python27
+api_version: 1
+threadsafe: true
+# Change default_expiration to 10s whilst testing CSS/JS/etc changes
+# default_expiration: "1h"
+default_expiration: "10s"
+
+libraries:
+- name: django
+  version: "1.3"
+
+handlers:
+- url: /static
+  static_dir: static
+- url: /robots.txt
+  static_files: static/txt/robots.txt
+  upload: static/txt/robots.txt
+- url: /favicon.ico
+  static_files: static/img/favicon.ico
+  upload: static/img/favicon.ico
+- url: /Offline/.*
+  login: admin
+  script: offline.app
+- url: /Admin.*
+  login: admin
+  secure: always
+  script: admin.app
+- url: .*
+  script: main.app
+

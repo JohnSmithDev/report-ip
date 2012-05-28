@@ -1,0 +1,23 @@
+{% load django_custom_tags %}
+<!DOCTYPE html>
+<html lang="en-gb">
+	<head>
+		<title>{{ plainTitle|striptags }}</title>
+		{% block extrahead %}
+		{% endblock %}
+		<link rel="stylesheet" type="text/css" href="static/css/report-ip.css" />
+	</head>
+	<body>
+		{% block heading %}
+		<header>
+			<h1>Report IP</h1>
+			An simple online tool to show your public IP address and
+			other information sent by your browser connection
+		</header>
+		{% endblock %}
+		{% block body %}
+		{% endblock %}
+		{% block footer %}
+		{% endblock %}
+	</body>
+</html>
