@@ -29,3 +29,7 @@ There's a blog post with more info at
 * Register a domain and adjust the branding accordingly
 * Put a timestamp in the content, and set response headers to avoid any
   risk/confusion of cached output causing confusion
+* Properly parse the Accept: header - currently it just finds the first
+  match, which seems to do the right thing in practice, but I assume I should
+  also parse the q=0.x weightings?  (Will need to read/understand the HTTP
+  spec first.)
