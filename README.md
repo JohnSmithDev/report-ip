@@ -9,16 +9,19 @@ based on the IP address, and also dumps out the HTTP headers.
 This is a Python App Engine app, with no dependencies on external libraries
 other than those provided by the App Engine SDK.
 
+There's a blog post with more info at
+[http://www.john-smith.me/reinvented-the-wheel-and-built-my-own-ip-address-checker](http://www.john-smith.me/reinvented-the-wheel-and-built-my-own-ip-address-checker)
+
 ## TODO ##
 
-* Support report formats besides HTML; a client should be able to specify
-  this either through a format=whatever CGI parameter, or a more RESTful
-  way using the Accept: HTTP header.
+* Properly test the non-HTML output
+* Generate the non-HTML output using proper libraries rather than Django
+  templates - this will help avoid dumb errors with quoting, escaping etc.
 * Have a bit more blurb about what this is.
 * Tart up the front end with some CSS.
 * Save the received info in the datastore
 * Based on the saved info, improve the slightly crap geodata the Google
   APIs provide e.g. convert "eng" to "England", "london" to "London" etc
-* Hide the pseudo-headers that GAE added on (the X-Appengine-* ones)
 * Register a domain and adjust the branding accordingly
-
+* Put a timestamp in the content, and set response headers to avoid any
+  risk/confusion of cached output causing confusion
