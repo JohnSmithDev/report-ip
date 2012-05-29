@@ -1,12 +1,15 @@
 {% extends "base.html" %}
 
 {% block body %}
+<section>
 <h1>Your public IP address is {{ ip_addr }} <a href="http://en.wikipedia.org/wiki/IP_address" class="explain-link">What is this?</a></h1>
 <p class="explanation hidden">
 An "Internet Protocol" (IP) address is like a postal or zip code on the internet.  It can be used to identify you or other people
 using the same internet connection as you.  Learn more at <a href="http://en.wikipedia.org/wiki/IP_address">the Wikipedia page</a>
 on this subject.
 </p>
+</section>
+<section>
 <h2>Where does Google think you are located?&nbsp;<a href="http://en.wikipedia.org/wiki/IP_geolocation" class="explain-link">What is this?</a></h2>
 <p class="explanation hidden">
 Various companies, including Google, have built up databases that map IP addresses to physical real-world locations.
@@ -27,7 +30,9 @@ the Wikipedia page</a> on this subject.
 		{% else %}Unknown{% endif %}
 	</dd>
 </dl>
+</section>
 
+<section>
 <h2>Request headers&nbsp;<a href="http://en.wikipedia.org/wiki/HTTP_header" class="explain-link">What is this?</a></h2>
 <p class="explanation hidden">
 Every time your web browser fetches some information - e.g. a web page or a picture - from the internet,
@@ -36,17 +41,18 @@ your preferred language is and what type of browser you have.  Learn more at <a
 href="http://en.wikipedia.org/wiki/HTTP_header">the Wikipedia page</a> on this subject.
 </p>
 <dl>
-	{% for hdr in headers.items %}
+	{% for hdr in headers %}	
 	<dt>{{ hdr.0 }}</dt>
 	<dd>{{ hdr.1 }}</dd>
 	{% endfor %}
 </dl>
+</section>
 
-<div class="clearfix"></div>
-
+<section>
 <p>
 Some waffle to go in here
 </p>
+</section>
 
 <script src="static/js/main.js"></script>
 {% endblock %}
