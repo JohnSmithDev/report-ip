@@ -9,7 +9,7 @@ based on the IP address, and also dumps out the HTTP headers.
 This is a Python App Engine app, with no dependencies on external libraries
 other than those provided by the App Engine SDK.
 
-A live instance of the app has been deployed to [http://report-ip.appspot.com](http://report-ip.appspot.com],
+A live instance of the app has been deployed to [http://report-ip.appspot.com](http://report-ip.appspot.com),
 but as this is an unbilled app that will easily hit the free quota limits,
 please don't abuse it.
 
