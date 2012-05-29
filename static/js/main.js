@@ -19,6 +19,6 @@ var explainLinks = document.querySelectorAll(".explain-link");
 for (var i=0; i<explainLinks.length; i++) {
 	explainLinks[i].addEventListener("click",
 	                                 showHelp,
-	                                 false;
+	                                 false);
 }
 
