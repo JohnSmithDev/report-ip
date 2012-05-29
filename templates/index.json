@@ -1,9 +1,9 @@
 {
-	"ipAddress": {{ ip_addr }},
+	"ipAddress": "{{ ip_addr }}",
 	"country": {% if country %}"{{ country }}"{% else %}undefined{% endif %},
 	"region": {% if region %}"{{ region }}"{% else %}undefined{% endif %},
 	"city": {% if city %}"{{ city }}"{% else %}undefined{% endif %},
-	"latLong": {% if latlong %}"latlong"{% else %}undefined{% endif %},
+	"latLong": {% if latlong %}"{{ latlong }}"{% else %}undefined{% endif %},
 	"headers": {
 		{% for hdr in headers %}
 		"{{ hdr.0 }}": "{{ hdr.1 }}"{% if not forloop.last %},{% endif %}
