@@ -33,3 +33,7 @@ There's a blog post with more info at
   match, which seems to do the right thing in practice, but I assume I should
   also parse the q=0.x weightings?  (Will need to read/understand the HTTP
   spec first.)
+* The front-end code doesn't make any allowances for crappy old browsers that
+  don't support stuff like <section> and querySelectorAll().  I'm quite happy
+  not to support them, but it would be good to detect crappy browsers and
+  redirect to a page suggesting they upgrade.
