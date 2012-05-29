@@ -1,0 +1,2 @@
+IP Address,Country,Region,City,LatLong,{% for hdr in headers %}{{ hdr.0 }}{% if not forloop.last %},{% endif %}{% endfor %}
+{{ ip_addr }},{{ country|default_if_none:"" }},{{ region|default_if_none:"" }},{{ city|default_if_none:"" }},{{ latlong|default_if_none:"" }},{% for hdr in headers %}{{ hdr.1 }}{% if not forloop.last %},{% endif %}{% endfor %}

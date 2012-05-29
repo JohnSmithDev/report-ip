@@ -17,6 +17,24 @@ import content
 
 import app_settings
 
+def sanitised_location_value(req, key):
+    """
+    The appspot.com geolocation API returns "?" for country/region/city and
+    0.00...,0.00000" for LatLong if they are unknown for the given IP,
+    I prefer to use None for unknown values (which is what dev_appserver
+    provides for these headers).
+    """
+    val = req.headers.get("X-AppEngine-" + key)
+    if val is None:
+        return val
+    if key.lower() in ["country", "region", "city"] and val == "?":
+        val = None
+    elif key.lower() in ["citylatlong"]:
+        latitude, longitude = val.split(",")
+        if float(latitude) == 0.0 and float(longitude) == 0.0:
+            val = None
+    return val
+
 def parse_location_headers(req):
     """
     Return a dict containing county, region, city, latlong values,
@@ -28,24 +46,83 @@ def parse_location_headers(req):
     """
 
     return {
-        "country": req.headers.get("X-AppEngine-Country"),
-        "region": req.headers.get("X-AppEngine-Region"),
-        "city": req.headers.get("X-AppEngine-City"),
-        "latlong": req.headers.get("X-AppEngine-CityLatLong")
+        "country": sanitised_location_value(req, "Country"),
+        "region": sanitised_location_value(req, "Region"),
+        "city": sanitised_location_value(req, "City"),
+        "latlong": sanitised_location_value(req, "CityLatLong")
         }
 
+def sort_and_filter_headers(req):
+    """
+    Return a sorted list of 2-element tuples for the HTTP header values,
+    filtering out the ones that GAE adds on (as these could confuse
+    end-users when we display the headers back to them
+    """
+    ret_list = []
+    for k in sorted(req.headers.keys()):
+        logging.debug(k)
+        if not k.lower().startswith("x-appengine"):
+            ret_list.append((k, req.headers.get(k)))
+    return ret_list
+
+# Formats are defined in both "simple" and MIME-type forms, the former
+# are to make it easier for people using a format=xxx CGI arg.
+# The value is a 2-element tuple comprising template filename suffix and
+# MIME-type
+SUPPORTED_FORMATS = {"html": ("html", "text/html"),
+                     "text/html": ("html", "text/html"),
+
+                     "csv": ("csv", "text/csv"),
+                     "text/csv": ("csv", "text/csv"),
+
+                     "text": ("txt", "text/plain"),
+                     "txt": ("txt", "text/plain"),
+                     "plaintext": ("txt", "text/plain"),
+                     "text/plain": ("txt", "text/plain"),
+
+                     "xml": ("xml", "application/xml"),
+                     "application/xml": ("xml", "application/xml"),
+
+                     "json": ("json", "application/json"),
+                     "application/json": ("json", "application/json")
+                     }
+
+def work_out_format(req):
+    """
+    Using CGI args or Accept: header, work out what format to return.
+    (If both specified, CGI arg takes precedence.)
+    Throws ValueError if an unknown format was specified
+    """
+    if req.get("format"):
+        format = req.get("format").lower()
+        if format in SUPPORTED_FORMATS:
+            return SUPPORTED_FORMATS[format]
+        else:
+            raise ValueError("Unknown format in CGI arg: %s" % (format))
+    elif req.headers.get("Accept"):
+        fmt_list = req.headers.get("Accept").lower().split(",")
+        for format in fmt_list:
+            return SUPPORTED_FORMATS[format]
+        raise ValueError("Unknown format in Accept header: %s" % (format))
+
+    # Default
+    return SUPPORTED_FORMATS["html"]
 
 class ShowIP(LoggingHandler):
     def get(self):
+        filename_suffix, mime_type = work_out_format(self.request)
+
         dict_for_template = {
                 "ip_addr": self.request.remote_addr,
-                "headers": self.request.headers
+                "headers": sort_and_filter_headers(self.request)
                 }
-        logging.error("Country is %s" % 
-                      self.request.headers.get("X-AppEngine-Country"))
+        hdr = sort_and_filter_headers(self.request)
+        logging.debug(hdr)
+
         dict_for_template.update(parse_location_headers(self.request))
         content.output_page(self,
-                            template_file="index.html",
+                            template_file="index." + filename_suffix,
+                            mime_type=mime_type,
                             values=dict_for_template)
 
 app = webapp2.WSGIApplication(

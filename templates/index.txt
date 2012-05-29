@@ -1,0 +1,8 @@
+IP Address: {{ ip_addr }}
+Country: {{ country|default_if_none:"Unknown" }}
+Region: {{ region|default_if_none:"Unknown" }}
+City: {{ city|default_if_none:"Unknown" }}
+Lat/Long: {{ latlong|default_if_none:"Unknown" }}
+{% for hdr in headers %}
+{{ hdr.0 }}: {{ hdr.1 }}
+{% endfor %}

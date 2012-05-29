@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ReportIP>
+  <IPAddress>{{ ip_addr }}</IPAddress>
+  <Country>{{ country|default_if_none:"" }}</Country>
+  <Region>{{ region|default_if_none:"" }}</Region>
+  <City>{{ city|default_if_none:"" }}</City>
+  <LatLong>{{ latlong|default_if_none:"" }}</LatLong>
+  <Headers>
+    {% for hdr in headers %}
+    <Header key="{{ hdr.0 }}">{{ hdr.1 }}</Header>
+    {% endfor %}
+  </Headers>
+
+</ReportIP>

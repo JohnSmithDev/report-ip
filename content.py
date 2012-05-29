@@ -60,6 +60,7 @@ def dict_for_django_template(rh):
 def output_page(rh, 
                 pagename=None,
                 template_file=None,
+                mime_type=None,
                 values=None):
     """
     Respond with rendered page content
@@ -83,6 +84,9 @@ def output_page(rh,
         t_dict.update(values)
 
     t_dict["pagename"] = pagename
+
+    if mime_type:
+        rh.response.headers["Content-Type"] = mime_type
 
     personalized = False
     if rh.request.get("OverrideDeviceStyle"):
