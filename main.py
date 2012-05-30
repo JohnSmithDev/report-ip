@@ -101,7 +101,8 @@ def work_out_format(req):
     elif req.headers.get("Accept"):
         fmt_list = req.headers.get("Accept").lower().split(",")
         for format in fmt_list:
-            return SUPPORTED_FORMATS[format]
+            if format in SUPPORTED_FORMATS:
+                return SUPPORTED_FORMATS[format]
         raise ValueError("Unknown format in Accept header: %s" % (format))
 
     # Default
