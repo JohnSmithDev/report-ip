@@ -15,9 +15,6 @@ from django.template import Node, VariableDoesNotExist, \
 
 import logging
 
-
-logging.error("****************")
-
 def iflengthequal(parser, token):
     """
     Usage {% iflengthequal list 1 %}Only 1 member{% endiflengthequal %}
@@ -68,7 +65,6 @@ class IfLengthEqualNode(Node):
             return self.nodelist_false.render(context)
 
 iflengthequal = register.tag(iflengthequal)
-logging.error("**** %s" % iflengthequal)
 
 def ifpackagefamily(parser, token):
     """
