@@ -37,3 +37,5 @@ There's a blog post with more info at
   don't support stuff like <section> and querySelectorAll().  I'm quite happy
   not to support them, but it would be good to detect crappy browsers and
   redirect to a page suggesting they upgrade.
+* Cursory testing indicates the HTML page looks OK on mobile devices, but
+  it could probably be improved a bit.
