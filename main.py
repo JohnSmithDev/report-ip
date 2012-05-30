@@ -81,6 +81,7 @@ SUPPORTED_FORMATS = {"html": ("html", "text/html"),
 
                      "xml": ("xml", "application/xml"),
                      "application/xml": ("xml", "application/xml"),
+                     "text/xml": ("xml", "text/xml"),
 
                      "json": ("json", "application/json"),
                      "application/json": ("json", "application/json")
