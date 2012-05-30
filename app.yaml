@@ -1,6 +1,6 @@
 ##PREFERRED_DEV_PORT=12349
 application: report-ip
-version: 0-1
+version: 0-2
 runtime: python27
 api_version: 1
 threadsafe: true
