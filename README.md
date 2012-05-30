@@ -29,13 +29,15 @@ There's a blog post with more info at
 * Register a domain and adjust the branding accordingly
 * Put a timestamp in the content, and set response headers to avoid any
   risk/confusion of cached output causing confusion
-* Properly parse the Accept: header - currently it just finds the first
-  match, which seems to do the right thing in practice, but I assume I should
-  also parse the q=0.x weightings?  (Will need to read/understand the HTTP
-  spec first.)
 * The front-end code doesn't make any allowances for crappy old browsers that
   don't support stuff like <section> and querySelectorAll().  I'm quite happy
   not to support them, but it would be good to detect crappy browsers and
   redirect to a page suggesting they upgrade.
 * Cursory testing indicates the HTML page looks OK on mobile devices, but
   it could probably be improved a bit.
+
+## WONTFIX ##
+
+* Fiddle handling of Accept: header for older WebKit browsers (e.g. Arora)
+  that prefer application/xml to text/html - see
+  http://www.gethifi.com/blog/webkit-team-admits-accept-header-error
