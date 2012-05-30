@@ -60,7 +60,6 @@ def sort_and_filter_headers(req):
     """
     ret_list = []
     for k in sorted(req.headers.keys()):
-        logging.debug(k)
         if not k.lower().startswith("x-appengine"):
             ret_list.append((k, req.headers.get(k)))
     return ret_list
@@ -117,7 +116,6 @@ class ShowIP(LoggingHandler):
                 "headers": sort_and_filter_headers(self.request)
                 }
         hdr = sort_and_filter_headers(self.request)
-        logging.debug(hdr)
 
         dict_for_template.update(parse_location_headers(self.request))
         content.output_page(self,
