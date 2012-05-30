@@ -94,24 +94,32 @@ def work_out_format(req):
     Throws ValueError if an unknown format was specified
     """
     if req.get("format"):
-        format = req.get("format").lower()
-        if format in SUPPORTED_FORMATS:
-            return SUPPORTED_FORMATS[format]
+        format_ = req.get("format").lower()
+        if format_ in SUPPORTED_FORMATS:
+            return SUPPORTED_FORMATS[format_]
         else:
-            raise ValueError("Unknown format in CGI arg: %s" % (format))
+            raise ValueError("Unknown format in CGI arg: %s" % (format_))
     elif req.headers.get("Accept"):
         fmt_list = req.headers.get("Accept").lower().split(",")
-        for format in fmt_list:
-            if format in SUPPORTED_FORMATS:
-                return SUPPORTED_FORMATS[format]
-        raise ValueError("Unknown format in Accept header: %s" % (format))
+        for format_ in fmt_list:
+            if format_ == "*/*":
+                break # use default format
+            if format_ in SUPPORTED_FORMATS:
+                return SUPPORTED_FORMATS[format_]
+        else:
+            raise ValueError("Unknown format in Accept header: %s" % (format_))
 
     # Default
     return SUPPORTED_FORMATS["html"]
 
 class ShowIP(LoggingHandler):
     def get(self):
-        filename_suffix, mime_type = work_out_format(self.request)
+        try:
+            filename_suffix, mime_type = work_out_format(self.request)
+        except ValueError, e:
+            logging.error("Unable to make sense of format: %s" % (e))
+            self.error(406) # Not Acceptable
+            return
 
         dict_for_template = {
                 "ip_addr": self.request.remote_addr,
